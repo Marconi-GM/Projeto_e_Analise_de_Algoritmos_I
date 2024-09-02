@@ -2,24 +2,25 @@
 #include <array>
 #include <string>
 #include <cstdlib>
+#include <algorithm>
 #include <cmath>
 
-int pertinencia(int *S, int *set, int *pos, int numero) {
+int pertinencia(int *S, int *n, int *set, int *pos, int numero) {
     /* Devolve 1 se numero ∈ S e zero caso contrário*/
     return 0;
 }
 
-void insere_valor(int *S, int *set, int *pos, int numero) {
+void insere_valor(int *S, int *n, int *set, int *pos, int numero) {
     /* Insere numero em S caso ele ainda não esteja no subcojunto. Não faz nada
     caso contrário*/
 
 }
 
-void remove_valor(int *S, int *set, int *pos, int numero) {
+void remove_valor(int *S, int *n, int *set, int *pos, int numero) {
     /* remove numero de S caso ele esteja no subconjunto. Não faz nada caso contrário*/
 }
 
-void reinicializa_S(int *S) {
+void reinicializa_S(int *S, int *n) {
     /* Reinicializa o subconjunto S tornando-o vazio*/
 }
 
@@ -58,27 +59,43 @@ int main(void) {
 
     int N = 0,
         Q = 0,
-        numero = 0;
+        numero = 0,
+        pertence = 0;
 
-    int *S = {},
-        *set,
-        *pos;
-
-    
-    
     // receber N (representando o conjunto) e Q (número de operações)
     std::cin >> N >> Q;
+
+    int *S = new int,
+        *set = new int[N],
+        *pos = new int[N],
+        *n = new int;
+
+    std::fill(set, set+N, -1);
+    std::fill(pos, pos+N, -1);
+
+/*  O vetor set ´e simplesmente uma lista contendo os elementos de S em
+alguma ordem (por exemplo, ordem de inser¸c˜ao).
+
+        • Para i ∈ S, pos[i] indica a posi¸c˜ao de i no vetor set. Se i̸ ∈ S, ent˜ao
+pos[i] n˜ao tem significado nenhum
+
+*/
 
     for(int i = 0; i < Q; i++) {
         std::cin >> operacao >> numero;
         if(operacao == "p") {
-            pertinencia(S, set, pos, numero);
+            pertence = pertinencia(S, n, set, pos, numero);
+            if(pertence == 1) {
+                std::cout << 1;
+            } else {
+                std::cout << 0;
+            }
         } else if(operacao == "i") {
-            insere_valor(S, set, pos, numero);
+            insere_valor(S, n, set, pos, numero);
         } else if(operacao == "r") {
-            remove_valor(S, set, pos, numero);
+            remove_valor(S, n, set, pos, numero);
         } else if(operacao == "l") {
-            reinicializa_S(S);
+            reinicializa_S(S, n);
         }
     }
 
