@@ -5,13 +5,10 @@
 #include <algorithm>
 #include <cmath>
 
-int pertinencia(int *n, int *set, int numero) {
+int pertinencia(int *n, int *set, int *pos, int numero) {
     /* Devolve 1 se numero ∈ S e zero caso contrário*/
-    for(int i = 0; i < *n; i++) {
-        if(set[i] == numero)
-        {
-            return 1;
-        }
+    if(pos[numero] != -1 && set[pos[numero]] == numero) {
+        return 1;
     }
 
     return 0;
@@ -78,7 +75,7 @@ int main(void) {
         std::cin >> operacao;
         if(operacao == "p") {
             std::cin >> numero;
-            pertence = pertinencia(n, set, numero);
+            pertence = pertinencia(n, set, pos, numero);
             if(pertence == 1) {
                 std::cout << 1 << std::endl;
             } else {
