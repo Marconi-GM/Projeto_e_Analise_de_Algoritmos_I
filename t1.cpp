@@ -5,10 +5,10 @@
 #include <algorithm>
 #include <cmath>
 
-int pertinencia(int *n, int *set, int *pos, int numero) {
+int pertinencia(int *n, int *set, int numero) {
     /* Devolve 1 se numero ∈ S e zero caso contrário*/
     for(int i = 0; i < *n; i++) {
-        if(set[i] == numero && set[pos[numero]] == numero)
+        if(set[i] == numero)
         {
             return 1;
         }
@@ -40,10 +40,17 @@ void remove_valor(int *n, int *set, int *pos, int numero) {
         pos[numero] = -1;
         *n -= 1;
     }
+
+    if(*n < 0) {
+        *n = 0;
+    }
 }
 
-void reinicializa_S(int *n) {
+void reinicializa_S(int *n, int *set, int *pos) {
     /* Reinicializa o subconjunto S tornando-o vazio*/
+    for(int i = 0; i < *n; i++) {
+        pos[set[i]] = -1;
+    }
     *n = 0;
 }
 
@@ -71,7 +78,7 @@ int main(void) {
         std::cin >> operacao;
         if(operacao == "p") {
             std::cin >> numero;
-            pertence = pertinencia(n, set, pos, numero);
+            pertence = pertinencia(n, set, numero);
             if(pertence == 1) {
                 std::cout << 1 << std::endl;
             } else {
@@ -84,18 +91,8 @@ int main(void) {
             std::cin >> numero;
             remove_valor(n, set, pos, numero);
         } else if(operacao == "l") {
-            reinicializa_S(n);
-        } else if(operacao == "print") {
-            for(int i = 0; i < N; i++)
-                std::cout << set[i] << " ";
-
-            std::cout << std::endl;
-            
-            for(int i = 0; i < N; i++)
-                std::cout << pos[i] << " ";
-            
-            std::cout << std::endl;
-        }
+            reinicializa_S(n, set, pos);
+        } 
     }
 
     return 0;
