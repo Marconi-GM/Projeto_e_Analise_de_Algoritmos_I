@@ -7,7 +7,7 @@
 
 int pertinencia(int *n, int *set, int *pos, int numero) {
     /* Devolve 1 se numero ∈ S e zero caso contrário*/
-    if(pos[numero] != -1 && set[pos[numero]] == numero) {
+    if(*n > 0 && set[pos[numero]] == numero && *n > pos[numero]) {
         return 1;
     }
 
@@ -17,7 +17,7 @@ int pertinencia(int *n, int *set, int *pos, int numero) {
 void insere_valor(int *n, int *set, int *pos, int numero) {
     /* Insere numero em S caso ele ainda não esteja no subcojunto. Não faz nada
     caso contrário*/
-    if(pos[numero] == -1) {
+    if(*n == 0 || set[pos[numero]] != numero || pos[numero] > *n) {
         set[*n] = numero;
         pos[numero] = *n;
         *n += 1;
@@ -26,15 +26,12 @@ void insere_valor(int *n, int *set, int *pos, int numero) {
 
 void remove_valor(int *n, int *set, int *pos, int numero) {
     /* remove numero de S caso ele esteja no subconjunto. Não faz nada caso contrário*/
-    if(pos[numero] != -1) {
+    if(set[pos[numero]] == numero && pos[numero] < *n) {
         // coloca o último elemento do vetor set na posição que teve seu elemento removido
         // -1 acrescentado pois o vetor começa em zero
         set[pos[numero]] = set[(*n) - 1];
         // atualiza a posição nova do elemento que foi movido
         pos[set[(*n) - 1]] = pos[numero];
-        // atualiza a posição do elemnto que foi removido para -1 pois ele não
-        // está mais nos array's
-        pos[numero] = -1;
         *n -= 1;
     }
 
@@ -45,9 +42,6 @@ void remove_valor(int *n, int *set, int *pos, int numero) {
 
 void reinicializa_S(int *n, int *set, int *pos) {
     /* Reinicializa o subconjunto S tornando-o vazio*/
-    for(int i = 0; i < *n; i++) {
-        pos[set[i]] = -1;
-    }
     *n = 0;
 }
 
@@ -68,8 +62,6 @@ int main(void) {
         *n = new int;
 
     *n = 0;
-    std::fill(set, set+N, -1);
-    std::fill(pos, pos+N, -1);
 
     for(int i = 0; i < Q; i++) {
         std::cin >> operacao;
@@ -91,6 +83,10 @@ int main(void) {
             reinicializa_S(n, set, pos);
         } 
     }
+
+    delete set;
+    delete pos;
+    delete n;
 
     return 0;
 }
