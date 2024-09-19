@@ -38,6 +38,31 @@ Arvore *cria_arvore(Arvore *arv) {
     return arv;
 }
 
+int magic(Arvore *arv) {
+    int peso_esq = 0,
+        peso_dir = 0;
+
+    int caminho_max = 0;
+
+    if(arv->esq == NULL && arv->dir == NULL) {
+        return arv->peso;
+    } else {
+        peso_esq = magic(arv->esq);
+        peso_dir = magic(arv->dir);
+    }
+
+    if(peso_esq >= peso_dir) {
+        caminho_max = arv->peso + peso_esq; 
+    } else {
+        caminho_max = arv->peso + peso_dir;
+    }
+
+    return caminho_max;
+}
+
+
+
+
 void printa_arvore(Arvore *arv) {
     std::cout << arv->peso << " ";
     if(arv->esq != NULL)
@@ -52,7 +77,8 @@ int main(void) {
 
     arv = cria_arvore(arv);
     
-    printa_arvore(arv);
+    // printa_arvore(arv);
+    std::cout << (magic(arv));
     std::cout << std::endl;
     // criar uma função para apagar os nós da arvore antes de
     delete arv;
