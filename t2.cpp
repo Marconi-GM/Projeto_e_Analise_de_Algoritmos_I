@@ -7,6 +7,21 @@
 #include <tuple>
 
 
+/*
+
+Oi Guilherme., tudo bem? Já peço desculpas por não ter respondido a mensagem anterior. Achei o código bem escrito, só demorei pra entender o comentário que você fez sobre a semântica da variável 'subcaminho'. Inclusive minha correção entrou justamente nela. Pode ser que minha modificação tenha modificado o sentido original que você quis dar a ela.
+
+Basicamente no caso geral eu troquei essa linha
+    subcaminho = arv->peso + std::get<0>(caminho_esq) + std::get<0>(caminho_dir);
+por essa
+    subcaminho = std::max({arv->peso + std::get<0>(caminho_esq) + std::get<0>(caminho_dir), std::get<1>(caminho_esq), std::get<1>(caminho_dir)});
+
+Eu entendi que a variável 'caminho_max' armazena o peso do caminho máximo que inclui raiz. Ótimo. Mas aí você definiu a 'subcaminho' como levando em consideração que a raiz pode não estar incluída (aí me perguntei por que arv->peso é somado na linha original). A modificação foi pegar o maior peso entre os pesos do caminho máximo da árvore esquerda e direita (sem necessariamente incluir raiz, por isso usei o get<1>), e o peso do caminho máximo que inclui a raiz, que é o que tinha na linha original. Aí cobre todas as possibilidades. Não sei se foi isso que você pensou originalmente para a variável 'subcaminho'. Pode ser que com essa modificação seja possível simplificar esse caso geral, mas como funcionou, não pensei muito mais a fundo.
+
+
+*/
+
+
 class Arvore {
     public: Arvore *esq;
     public: Arvore *dir;
